@@ -53,10 +53,10 @@ func (h *host) Check(ctx context.Context) error {
 		cert := conn.ConnectionState().PeerCertificates[0]
 
 		timeNow := time.Now()
-		h.hosts[host].CreateAt = cert.NotBefore.Unix()
-		h.hosts[host].EndAt = cert.NotAfter.Unix()
+		h.hosts[host].CreateAt = cert.NotBefore.Local().Format(time.RFC850)
+		h.hosts[host].EndAt = cert.NotAfter.Local().Format(time.RFC850)
 		h.hosts[host].Issuer = cert.Issuer.String()
-		h.hosts[host].ExpiredAt = cert.NotAfter.Sub(timeNow).Hours()
+		h.hosts[host].ExpiredAt = int(cert.NotAfter.Sub(timeNow).Hours())
 	}
 	return nil
 }

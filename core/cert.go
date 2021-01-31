@@ -7,10 +7,10 @@ import (
 type (
 	// Cert  struct
 	cert struct {
-		Issuer    string  `json:"Issuer"`
-		CreateAt  int64   `json:"create_at"`
-		EndAt     int64   `json:"end_at"`
-		ExpiredAt float64 `json:"expired_at"`
+		Issuer    string `json:"Issuer"`
+		CreateAt  string `json:"create_at"`
+		EndAt     string `json:"end_at"`
+		ExpiredAt int    `json:"expired_at"`
 	}
 	// CertInfo .
 	CertInfo struct {
