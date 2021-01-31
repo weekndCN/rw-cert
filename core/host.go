@@ -40,24 +40,26 @@ func (h *host) Check(ctx context.Context) error {
 	// cert info
 	for host := range h.hosts {
 		conn, err := tls.Dial("tcp", host+":443", nil)
-		defer conn.Close()
 		if err != nil {
-			log.Fatal("failed to connect: " + err.Error())
+			log.Printf("host: %s cannot create a connect, error: %s\n", host, err)
+			continue
 		}
-		err = conn.VerifyHostname(host)
 
+		defer conn.Close()
+
+		err = conn.VerifyHostname(host)
 		if err != nil {
-			log.Fatal("Hostname doesn't match with certificate:" + err.Error())
+			log.Printf("Hostname doesn't match with certificate: %s\n", err.Error())
 		}
 
 		cert := conn.ConnectionState().PeerCertificates[0]
-
 		timeNow := time.Now()
 		h.hosts[host].CreateAt = cert.NotBefore.Local().Format(time.RFC850)
 		h.hosts[host].EndAt = cert.NotAfter.Local().Format(time.RFC850)
 		h.hosts[host].Issuer = cert.Issuer.String()
 		h.hosts[host].ExpiredAt = int(cert.NotAfter.Sub(timeNow).Hours())
 	}
+
 	return nil
 }
 
@@ -84,9 +86,8 @@ func (h *host) Run(ctx context.Context, location string) error {
 	for _, domain := range read(location) {
 		h.Create(ctx, domain)
 	}
+
+	h.Check(ctx)
 	// add cron job
-	if err := h.Check(ctx); err != nil {
-		log.Fatal(err)
-	}
 	return nil
 }

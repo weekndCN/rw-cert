@@ -24,6 +24,7 @@ func ErrorCode(w http.ResponseWriter, err error, status int) {
 
 // JSON writer a json-encoded error message to http.Respaonse
 func JSON(w http.ResponseWriter, v interface{}, status int) {
+	w.Header().Set("Access-Control-Allow-Origin", "*")
 	w.Header().Set("Content-Type", "application/json")
 	w.WriteHeader(status)
 	enc := json.NewEncoder(w)

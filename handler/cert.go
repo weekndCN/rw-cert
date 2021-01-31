@@ -1,7 +1,7 @@
 package handler
 
 import (
-	"encoding/json"
+	"fmt"
 	"net/http"
 
 	"github.com/weekndCN/rw-cert/core"
@@ -16,10 +16,11 @@ func handleFind() http.HandlerFunc {
 // HandleList list all hosts
 func handleList(info core.CertInfo) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
-		b, err := json.Marshal(info)
-		if err != nil {
-			InternalError(w, err)
+		// if config not set
+		if len(info.Info) == 0 {
+			NotFound(w, fmt.Errorf("no result founded"))
+			return
 		}
-		JSON(w, string(b), 200)
+		JSON(w, info.Info, 200)
 	}
 }
