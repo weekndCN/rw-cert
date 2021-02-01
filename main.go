@@ -19,7 +19,7 @@ func main() {
 	httpServer := handler.New(hc.Info(ctx))
 	// cron check cert daily
 	c := cron.New()
-	c.AddFunc("@midnight ", func() {
+	c.AddFunc("@midnight", func() {
 		var ctx context.Context
 		hc.Check(ctx)
 		timeNow := time.Now()

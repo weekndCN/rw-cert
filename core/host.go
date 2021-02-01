@@ -58,6 +58,7 @@ func (h *host) Check(ctx context.Context) error {
 		h.hosts[host].EndAt = cert.NotAfter.Local().Format(time.RFC850)
 		h.hosts[host].Issuer = cert.Issuer.String()
 		h.hosts[host].ExpiredAt = int(cert.NotAfter.Sub(timeNow).Hours())
+		h.hosts[host].CheckAt = timeNow.Local().Format(time.RFC850)
 	}
 
 	return nil

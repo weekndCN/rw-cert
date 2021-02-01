@@ -11,6 +11,7 @@ type (
 		CreateAt  string `json:"create_at"`
 		EndAt     string `json:"end_at"`
 		ExpiredAt int    `json:"expired_at"`
+		CheckAt   string `json:"check_at"`
 	}
 	// CertInfo .
 	CertInfo struct {
