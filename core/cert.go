@@ -7,7 +7,7 @@ import (
 type (
 	// Cert  struct
 	cert struct {
-		Issuer    string `json:"Issuer"`
+		Issuer    string `json:"issuer"`
 		CreateAt  string `json:"create_at"`
 		EndAt     string `json:"end_at"`
 		ExpiredAt int    `json:"expired_at"`
